@@ -8,10 +8,9 @@ services:
   - type: web
     name: mo-marketplace-api
     plan: free
-    runtime: node
+    runtime: docker
     rootDir: mo-marketplace-api
-    buildCommand: npm install && npm run build
-    startCommand: node dist/main.js
+    dockerfilePath: ./Dockerfile
     envVars:
       - key: NODE_ENV
         value: production
