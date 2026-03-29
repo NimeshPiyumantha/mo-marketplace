@@ -1,0 +1,43 @@
+databases:
+  - name: mo-marketplace-db
+    plan: free
+    databaseName: mo_marketplace
+    user: mo_user
+
+services:
+  - type: web
+    name: mo-marketplace-api
+    plan: free
+    runtime: node
+    rootDir: mo-marketplace-api
+    buildCommand: npm install && npm run build
+    startCommand: node dist/main.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: DB_HOST
+        fromDatabase:
+          name: mo-marketplace-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: mo-marketplace-db
+          property: port
+      - key: DB_USERNAME
+        fromDatabase:
+          name: mo-marketplace-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: mo-marketplace-db
+          property: password
+      - key: DB_NAME
+        fromDatabase:
+          name: mo-marketplace-db
+          property: database
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 7d

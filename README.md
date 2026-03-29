@@ -255,9 +255,45 @@ mo-marketplace-web/              # React frontend
 | `DB_NAME` | `mo_marketplace` | Database name |
 | `JWT_SECRET` | — | Secret key for signing JWTs |
 | `JWT_EXPIRES_IN` | `7d` | Token expiration duration |
+| `CORS_ORIGINS` | `http://localhost:5173,http://localhost:3000` | Comma-separated allowed origins |
 
 ### Frontend (.env)
 
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `VITE_API_URL` | `http://localhost:3000` | Backend API base URL |
+
+## Deployment
+
+### Backend → Render
+
+1. Push this repo to GitHub
+2. Go to [Render Dashboard](https://dashboard.render.com) → **New** → **Blueprint**
+3. Connect this repo → Render reads `render.yaml` and provisions:
+   - Free PostgreSQL database
+   - Free web service running the NestJS API
+4. After deploy, set `CORS_ORIGINS` env var to your frontend URL
+
+**One-click:** [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy)
+
+### Frontend → Vercel
+
+1. Go to [Vercel Dashboard](https://vercel.com/new) → Import this repo
+2. Set **Root Directory** to `mo-marketplace-web`
+3. Set **Framework Preset** to `Vite`
+4. Add environment variable:
+   - `VITE_API_URL` = your Render backend URL (e.g. `https://mo-marketplace-api.onrender.com`)
+5. Deploy
+
+## API Documentation
+
+Interactive Swagger documentation is auto-generated and available at:
+
+- **Local:** http://localhost:3000/api
+- **Deployed:** `<your-backend-url>/api`
+
+Swagger includes:
+- All endpoints with request/response schemas
+- JWT Bearer authentication (click **Authorize** to add your token)
+- Try-it-out functionality for testing endpoints directly
+- DTO validation rules visible on each schema
