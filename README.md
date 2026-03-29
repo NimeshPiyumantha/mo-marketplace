@@ -247,8 +247,9 @@ mo-marketplace-web/              # React frontend
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `PORT` | `3000` | API server port |
-| `NODE_ENV` | `development` | Environment (`development` enables TypeORM sync) |
-| `DB_HOST` | `localhost` | PostgreSQL host |
+| `NODE_ENV` | `development` | Environment mode |
+| `DATABASE_URL` | — | PostgreSQL connection string (Railway/cloud — takes priority over individual vars) |
+| `DB_HOST` | `localhost` | PostgreSQL host (local dev) |
 | `DB_PORT` | `5432` | PostgreSQL port |
 | `DB_USERNAME` | `postgres` | Database username |
 | `DB_PASSWORD` | — | Database password |
@@ -265,25 +266,33 @@ mo-marketplace-web/              # React frontend
 
 ## Deployment
 
-### Backend → Render
+### Backend → Railway
 
-1. Push this repo to GitHub
-2. Go to [Render Dashboard](https://dashboard.render.com) → **New** → **Blueprint**
-3. Connect this repo → Render reads `render.yaml` and provisions:
-   - Free PostgreSQL database
-   - Free web service running the NestJS API
-4. After deploy, set `CORS_ORIGINS` env var to your frontend URL
-
-**One-click:** [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy)
+1. Go to [railway.app](https://railway.app) → Sign up with GitHub
+2. **New Project** → **Deploy from GitHub repo** → select `mo-marketplace`
+3. Click the service → **Settings**:
+   - **Root Directory** → `mo-marketplace-api`
+   - **Build Command** → `npm install && npm run build`
+   - **Start Command** → `node dist/main.js`
+4. **Add PostgreSQL**: Click **+ New** → **Database** → **PostgreSQL**
+5. Click your web service → **Variables** → **Add Reference Variable** → select `DATABASE_URL` from PostgreSQL
+6. Add remaining variables:
+   - `PORT` = `3000`
+   - `NODE_ENV` = `production`
+   - `JWT_SECRET` = *(any random string)*
+   - `JWT_EXPIRES_IN` = `7d`
+   - `CORS_ORIGINS` = *(your Vercel frontend URL, set after Step 2)*
+7. Copy the Railway public URL from **Settings** → **Networking** → **Generate Domain**
 
 ### Frontend → Vercel
 
-1. Go to [Vercel Dashboard](https://vercel.com/new) → Import this repo
-2. Set **Root Directory** to `mo-marketplace-web`
-3. Set **Framework Preset** to `Vite`
+1. Go to [vercel.com/new](https://vercel.com/new) → Import `mo-marketplace`
+2. Set **Root Directory** → `mo-marketplace-web`
+3. Set **Framework Preset** → `Vite`
 4. Add environment variable:
-   - `VITE_API_URL` = your Render backend URL (e.g. `https://mo-marketplace-api.onrender.com`)
+   - `VITE_API_URL` = your Railway backend URL (e.g. `https://mo-marketplace-api-production.up.railway.app`)
 5. Deploy
+6. Copy the Vercel URL → go back to Railway and set `CORS_ORIGINS`
 
 ## API Documentation
 
