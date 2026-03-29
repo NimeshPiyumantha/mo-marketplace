@@ -20,6 +20,14 @@ A full-stack product marketplace with variant management, JWT authentication, an
 - PostgreSQL 15+ (local or Docker)
 - Git
 
+## Live Deployments
+
+| Service | URL |
+|---------|-----|
+| Frontend (Vercel) | https://mo-marketplace.vercel.app/ |
+| Backend API (Railway) | https://mo-marketplace-api-production.up.railway.app/api |
+| GitHub | https://github.com/NimeshPiyumantha/mo-marketplace.git |
+
 ## Quick Start
 
 ### 1. Clone & Database Setup
