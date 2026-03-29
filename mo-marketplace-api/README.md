@@ -2,14 +2,6 @@
 
 NestJS backend API for the MO Marketplace platform — handles products, variants, and JWT authentication.
 
-## Live Deployments
-
-| Service | URL |
-|---------|-----|
-| Frontend (Vercel) | https://mo-marketplace.vercel.app/ |
-| Backend API (Railway) | https://mo-marketplace-api-production.up.railway.app/api |
-| GitHub | https://github.com/NimeshPiyumantha/mo-marketplace.git |
-
 ## Tech Stack
 
 - **Runtime:** Node.js (>=18)
